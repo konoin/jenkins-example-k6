@@ -5,14 +5,16 @@ pipeline {
             steps {
                 script {
                     echo 'Installing K6...'
-                    sh 'sudo apt update && sudo apt install -y k6'
+                    sh 'apt update && apt install -y k6'
                 }
             }
         }
         stage('Run K6') {
             steps {
-                echo 'Running K6...'
-                sh 'k6 run script.js'
+                script {
+                    echo 'Running K6...'
+                    sh 'k6 run script.js'
+                }
             }
         }
     }
