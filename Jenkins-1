@@ -1,11 +1,28 @@
 pipeline {
-agent any stages ‹
-stage( 'verify k6') {
-steps 1
-sh 'k6 version'
-stage(' run k6
-test') ‹
-steps 1
-sh 'k6
-run script.js'
+    agent any
+
+    stages {
+        stage('Install K6') {
+            steps {
+                sh '''
+                    if ! [ -x "$(command -v k6)" ]; then
+                      echo "Installing k6..."
+                      sudo apt update && sudo apt install -y k6
+                    fi
+                '''
+            }
+        }
+
+        stage('Run K6') {
+            steps {
+                sh 'k6 run script.js'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
 }
