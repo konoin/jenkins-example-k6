@@ -1,0 +1,11 @@
+pipeline {
+agent any stages ‹
+stage( 'verify k6') {
+steps 1
+sh 'k6 version'
+stage(' run k6
+test') ‹
+steps 1
+sh 'k6
+run script.js'
+}
