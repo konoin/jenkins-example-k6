@@ -1,17 +1,14 @@
 pipeline {
     agent any 
     stages {
-        stage('Checkout SCM') {
+        stage('verify k6') {
             steps {
-               git branch: 'main', url: 'https://github.com/konoin/jenkins-example-k6.git'
+               sh 'k6 version'
             }
         }
-        stage('Run K6') {
+        stage('run K6 test') {
             steps {
-                script {
-                    echo 'Running K6 tests...'
-                    sh 'k6 cloud script.js'
-                }
+                    sh 'k6 run script.js'
             }
         }
     }
