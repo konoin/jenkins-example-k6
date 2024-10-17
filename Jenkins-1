@@ -1,28 +1,13 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Install K6') {
-            steps {
-                sh '''
-                    if ! [ -x "$(command -v k6)" ]; then
-                      echo "Installing k6..."
-                      sudo apt update && sudo apt install -y k6
-                    fi
-                '''
+stage('Install K6') {
+    steps {
+        script {
+            def k6Exists = sh(script: 'command -v k6', returnStatus: true) == 0
+            if (!k6Exists) {
+                echo 'Installing k6...'
+                sh 'sudo apt update && sudo apt install -y k6'
+            } else {
+                echo 'K6 is already installed.'
             }
-        }
-
-        stage('Run K6') {
-            steps {
-                sh 'cd K6 && k6 run script.js'
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline completed.'
         }
     }
 }
