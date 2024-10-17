@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running K6 tests...'
-                    sh 'cd K6 && k6 run script.js'
+                    sh 'k6 run script.js'
                 }
             }
         }
